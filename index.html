@@ -771,6 +771,18 @@ table.ctab.tight td.nm{white-space:nowrap;color:var(--accent);font-size:clamp(10
     },{passive:true});
   })();
   setTimeout(function(){ buildSubs(); ui(); }, 200);
+  // 深連結：#sku-R19 / #p-F04-MC1A → 開場直接跳到該處
+  (function(){
+    var h=location.hash.replace('#','');
+    if(!h) return;
+    setTimeout(function(){
+      if(h.indexOf('sku-')===0){ window.pcdGoSku(h.slice(4)); return; }
+      var pg=document.querySelector('[data-sub="'+h+'"]');
+      if(pg){ var blk=pg.closest('.blk'); var all=Array.prototype.slice.call(document.querySelectorAll('.blk'));
+        var bi=all.indexOf(blk); var pi=Array.prototype.indexOf.call(blk.querySelectorAll('.page'), pg);
+        if(window.pcdGoPage) window.pcdGoPage(bi,pi); }
+    }, 700);
+  })();
   // ── 角色 → 商品卡跳轉
   window.pcdGoSku=function(sku){
     var el=document.getElementById('sku-'+sku); if(!el) return false;
